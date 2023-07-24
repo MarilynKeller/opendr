@@ -174,7 +174,7 @@ def dImage_wrt_2dVerts_bnd(observed, visible, visibility, barycentric, image_wid
     data = np.concatenate(datas)
 
     ij = np.vstack((IS.ravel(), JS.ravel()))
-    result = sp.csc_matrix((data, ij), shape=(image_width*image_height*n_channels, num_verts*2))
+    result = sp.csc_matrix((data, ij), shape=(image_width*image_height*n_channels, int(num_verts*2)))
 
     return result
 
@@ -464,7 +464,7 @@ def draw_barycentric_image_internal(gl, v, f):
 
     verts_by_face = v.reshape((-1,3))[f.ravel()]
     verts_by_face = np.asarray(verts_by_face, dtype=np.float64, order='C')
-    vc_by_face = np.asarray(np.tile(np.eye(3)[:f.shape[1], :], (verts_by_face.shape[0]/f.shape[1], 1)), order='C')
+    vc_by_face = np.asarray(np.tile(np.eye(3)[:f.shape[1], :], (verts_by_face.shape[0]//f.shape[1], 1)), order='C')
 
     gl.ColorPointerd(vc_by_face)
     gl.VertexPointer(verts_by_face)
